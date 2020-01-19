@@ -1,0 +1,100 @@
+﻿<form name="gameForm" ng-controller="GamesController" val-form-manager>
+    <umb-panel>
+        <umb-header tabs="content.tabs">
+            <h1 class="ng-binding">Games section</h1>
+        </umb-header>
+
+        <umb-tab-view>
+            <umb-tab id="tab1" rel="Create">
+                <div class="umb-pane">
+                    Season ID:<br>
+                    <select name="seasonId" ng-model="newGame.Season_Id" ng-options="season.Season_Id as season.Season_Title for season in seasons" required></select>
+                    <span style="color:red;" ng-show="gameForm.seasonId.$invalid">
+                        <span ng-show="gameForm.seasonId.$error.required">Season ID is required</span>
+                    </span>
+                    <br />
+                    Opposing team:<br>
+                    <input type="text" name="opposingTeam" ng-model="newGame.Opposing_Team" required>
+                    <span style="color:red;" ng-show="gameForm.opposingTeam.$invalid">
+                        <span ng-show="gameForm.opposingTeam.$error.required">Opposing team is required</span>
+                    </span>
+                    <br />
+                    Game date:<br>
+                    <input type="date" name="gameDate" ng-model="newGame.Game_Date" required>
+                    <span style="color:red;" ng-show="gameForm.gameDate.$invalid">
+                        <span ng-show="gameForm.gameDate.$error.required">Game-date is required</span>
+                    </span>
+                    <br />
+                    Game location:<br>
+                    <input type="text" name="gameLocation" ng-model="newGame.Game_Location" required>
+                    <span style="color:red;" ng-show="gameForm.gameLocation.$invalid">
+                        <span ng-show="gameForm.gameLocation.$error.required">Game location is required</span>
+                    </span>
+                    <br />
+                    <br>
+
+                    <umb-button action="createGame(newGame)"
+                                type="button"
+                                button-style="info"
+                                state="createGameBtnState"
+                                disabled="gameForm.seasonId.$invalid || gameForm.opposingTeam.$invalid
+                                       || gameForm.gameDate.$invalid || gameForm.gameLocation.$invalid"
+                                label="Create">
+                    </umb-button>
+                </div>
+            </umb-tab>
+
+            <umb-tab id="tab2" rel="Manage">
+                <div class="umb-pane">
+                    <ul class="unstyled">
+                        <div ng-if="games.length === 0">
+                            <p>No games yet.</p>
+                        </div>
+
+                        <li ng-repeat="game in games">
+                            <umb-box>
+                                <umb-box-header title={{game.Opposing_Team}}>
+                                    Season ID:<br>
+                                    <select ng-model="game.Season_Id" ng-options="season.Season_Id as season.Season_Title for season in seasons"></select>
+                                    <br />
+                                    Opposing team:<br>
+                                    <input type="text" ng-model="game.Opposing_Team">
+                                    <br />
+                                    Game date:<br>
+                                    <input type="date" ng-model="game.Game_Date">
+                                    <br />
+                                    Game location:<br>
+                                    <input type="text" ng-model="game.Game_Location">
+                                    <br />
+                                    <br>
+
+                                    <umb-button action="showDeletePrompt()"
+                                                type="button"
+                                                button-style="danger"
+                                                state="deleteGameBtnState"
+                                                label="Delete">
+                                    </umb-button>
+
+                                    <umb-button action="updateGame(game)"
+                                                type="button"
+                                                button-style="info"
+                                                state="updateGameBtnState"
+                                                label="Update">
+                                    </umb-button>
+
+                                    <div class="my-action" style="position:relative;">
+                                        <umb-confirm-action ng-if="promptIsVisible"
+                                                            direction="top"
+                                                            on-confirm="confirmDelete(game.Game_Id)"
+                                                            on-cancel="hideDeletePrompt()">
+                                        </umb-confirm-action>
+                                    </div>
+                                </umb-box-header>
+                            </umb-box>
+                        </li>
+                    </ul>
+                </div>
+            </umb-tab>
+        </umb-tab-view>
+    </umb-panel>
+</form>

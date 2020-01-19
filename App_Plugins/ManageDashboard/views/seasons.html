@@ -1,0 +1,94 @@
+﻿<form name="seasonForm" ng-controller="SeasonsController" val-form-manager>
+    <umb-panel>
+        <umb-header tabs="content.tabs">
+            <h1 class="ng-binding">Seasons section</h1>
+        </umb-header>
+        <umb-tab-view>
+            <umb-tab id="tab1" rel="Create season">
+                Season title:<br>
+                <input type="text" name="seasonTitle" ng-model="newSeason.Season_Title" required>
+                <span style="color:red;" ng-show="seasonForm.seasonTitle.$invalid">
+                    <span ng-show="seasonForm.seasonTitle.$error.required">Season title is required</span>
+                </span>
+                <br>
+                Season location:<br>
+                <input type="text" name="seasonLocation" ng-model="newSeason.Season_Location" required>
+                <span style="color:red;" ng-show="seasonForm.seasonLocation.$invalid">
+                    <span ng-show="seasonForm.seasonLocation.$error.required">Season location is required</span>
+                </span>
+                <br />
+                Season start date:<br>
+                <input type="date" name="seasonStartDate" ng-model="newSeason.Season_Start_Date" required>
+                <span style="color:red;" ng-show="seasonForm.seasonStartDate.$invalid">
+                    <span ng-show="seasonForm.seasonStartDate.$error.required">Season location is required</span>
+                </span>
+                <br />
+                Season end date:<br>
+                <input type="date" name="seasonEndDate" ng-model="newSeason.Season_End_Date" required>
+                <span style="color:red;" ng-show="seasonForm.seasonEndDate.$invalid">
+                    <span ng-show="seasonForm.seasonEndDate.$error.required">Season location is required</span>
+                </span>
+                <br /><br />
+
+                <umb-button action="addSeason()"
+                            type="button"
+                            button-style="success"
+                            state="createSeasonBtnState"
+                            disabled="seasonForm.seasonTitle.$invalid || seasonForm.seasonLocation.$invalid
+                               || seasonForm.seasonStartDate.$invalid || seasonForm.seasonEndDate.$invalid"
+                            label="Create">
+                </umb-button>
+            </umb-tab>
+
+            <umb-tab id="tab2" rel="Manage season">
+                <ul class="unstyled">
+                    <div ng-if="seasons.length === 0">
+                        <p>No seasons yet.</p>
+                    </div>
+
+                    <li ng-repeat="season in seasons">
+                        <umb-box>
+                            <umb-box-header title={{season.Season_Title}}>
+
+                                Season title:<br>
+                                <input type="text" ng-model="season.Season_Title">
+                                <br />
+                                Season location:<br>
+                                <input type="text" ng-model="season.Season_Location">
+                                <br />
+                                Season start date:<br>
+                                <input type="date" ng-model="season.Season_Start_Date">
+                                <br />
+                                Season end date:<br>
+                                <input type="date" ng-model="season.Season_End_Date">
+                                <br /><br />
+
+                                <umb-button action="showDeletePrompt()"
+                                            type="button"
+                                            button-style="danger"
+                                            state="deleteSeasonBtnState"
+                                            label="Delete">
+                                </umb-button>
+
+                                <umb-button action="updateSeason(season)"
+                                            type="button"
+                                            button-style="info"
+                                            state="updateSeasonBtnState"
+                                            label="Update">
+                                </umb-button>
+
+                                <div class="my-action" style="position:relative;">
+                                    <umb-confirm-action ng-if="promptIsVisible"
+                                                        direction="down"
+                                                        on-confirm="confirmDelete(season.Season_Id)"
+                                                        on-cancel="hideDeletePrompt()">
+                                    </umb-confirm-action>
+                                </div>
+                            </umb-box-header>
+                        </umb-box>
+                    </li>
+                </ul>
+            </umb-tab>
+        </umb-tab-view>
+    </umb-panel>
+</form>

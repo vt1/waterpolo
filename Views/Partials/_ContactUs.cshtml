@@ -1,0 +1,38 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ywp.Models.SiteModels.ContactUsModel>
+@using Umbraco.Web
+
+<section class="col-6 col-12-narrower">
+    @using (Html.BeginUmbracoForm("SubmitContactUs", "ContactUs", System.Web.Mvc.FormMethod.Post))
+    {
+        <h3>Get In Touch</h3>
+        @Html.AntiForgeryToken()
+        <div class="row gtr-50" id="contact-us">
+            <div class="col-6 col-12-mobilep">
+                @Html.TextBoxFor(m => m.Name, new { placeholder = "Name" })
+            </div>
+            <div class="col-6 col-12-mobilep">
+                @Html.TextBoxFor(m => m.Email, new { placeholder = "Email" })
+            </div>
+            <div class="col-12">
+                @Html.TextAreaFor(m => m.Message, new { placeholder = "Message", @rows = 5 })
+            </div>
+            <div class="col-12">
+                @Html.ValidationSummary()
+                <ul class="actions">
+                    <li>
+                        @if (TempData["error"] != null)
+                        {
+                            <h2>@TempData["error"]</h2>
+                        }
+
+                        @if (TempData["success"] != null)
+                        {
+                            <h2>@TempData["success"]</h2>
+                        }
+                        <input type="submit" class="button alt" value="Send Message" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
+</section>

@@ -1,0 +1,21 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ywp.Models.SiteViewModels.GameViewModel>
+@using ywp.CustomUtilities
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+
+<section class="wrapper style1">
+    <div class="row gtr-200">
+        <div class="container">
+            <h2>Game vs.. @Model.GameInfo.Opposing_Team</h2>
+            <h2><strong>Info</strong></h2>
+            <p><strong>Game id: </strong>@Model.GameInfo.Game_Id</p>
+            <p><strong>Game date: </strong>@Model.GameInfo.Game_Date</p>
+            <p><strong>Game location: </strong>@Model.GameInfo.Game_Location</p>
+
+            <h2><strong>Statistic</strong></h2>
+            <p>@LinkHelper.Link("/stats/totals/" + Model.GameInfo.Game_Id, "Stat Totals")</p>
+            <p>@LinkHelper.Link("/stats/gamelog/" + Model.GameInfo.Game_Id, "Game Log")</p>
+        </div>
+    </div>
+</section>

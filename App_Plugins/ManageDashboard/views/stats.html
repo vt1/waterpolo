@@ -1,0 +1,120 @@
+﻿<style>
+    table, th , td {
+        border: 1px solid grey;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    table tr:nth-child(odd) {
+        background-color: #f1f1f1;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+</style>
+
+<form name="statForm" ng-controller="StatsController" val-form-manager>
+    <umb-panel>
+        <umb-header tabs="content.tabs">
+            <h1 class="ng-binding">Stats section</h1>
+        </umb-header>
+        <umb-tab-view>
+            <umb-tab id="tab1" rel="Upload CSV">
+                <div class="umb-pane">
+                    Choose game:<br>
+                    <select name="selectedGame" ng-model="selectedGame" ng-change="changed(selectedGame)" ng-options="game.Game_Id as game.Opposing_Team for game in games" required></select>
+                    <span style="color:red;" ng-show="statForm.selectedGame.$invalid">
+                        <span ng-show="statForm.selectedGame.$error.required">Game is required</span>
+                    </span>
+                    <div class="col-sm-10">
+                        <input type="file" name="csvFiles" id="csvFiles" onchange="angular.element(this).scope().fileSelected(this)" />
+                    </div>
+
+                    <umb-button action="uploadFile()"
+                                type="button"
+                                button-style="info"
+                                state="uploadStatsBtnState"
+                                disabled="statForm.selectedGame.$invalid"
+                                label="Upload File">
+                    </umb-button>
+                </div>
+            </umb-tab>
+
+            <umb-tab id="tab2" rel="Delete stats">
+                <div class="umb-pane">
+                    Select a game whose statistics will be deleted:<br>
+                    <select name="selectedGame" ng-model="selectedGame" ng-change="changed(selectedGame)" ng-options="game.Game_Id as game.Opposing_Team for game in games" required></select>
+
+                    <umb-button action="deleteAllStatsByGameId(selectedGame)"
+                                type="button"
+                                button-style="danger"
+                                state="deleteStatsBtnState"
+                                disabled="statForm.selectedGame.$invalid"
+                                label="Delete">
+                    </umb-button>
+
+                    <span style="color:red;" ng-show="statForm.selectedGame.$invalid">
+                        <span ng-show="statForm.selectedGame.$error.required">Game is required</span>
+                    </span>
+                </div>
+            </umb-tab>
+
+            <umb-tab id="tab3" rel="Uploaded stats">
+                <div class="umb-pane">
+                    Select game:<br>
+                    <select name="selectedGame" ng-model="selectedGame" ng-change="changed(selectedGame)" ng-options="game.Game_Id as game.Opposing_Team for game in games" required></select>
+                    <umb-button action="getStatsByGameId(selectedGame)"
+                                type="button"
+                                button-style="info"
+                                state="showStatsBtnState"
+                                disabled="statForm.selectedGame.$invalid"
+                                label="Show stats">
+                    </umb-button>
+
+                    <span style="color:red;" ng-show="statForm.selectedGame.$invalid">
+                        <span ng-show="statForm.selectedGame.$error.required">Game is required</span>
+                    </span>
+                </div>
+
+                <div ng-if="stats.length === 0">
+                    <h2>No stats for this game yet</h2>
+                </div>
+
+                <div ng-if="stats.length > 0">    
+                    <div ng-if="hasStatsError">
+                        <h2>Stats have errors <br /> 1. Check correctness uploaded CSV (description, player_id) <br />
+                        2. Delete stats <br /> 3. Re-upload stats
+                        </h2>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>Stat Id</th>
+                            <th>Game Id</th>
+                            <th>Opposing team</th>
+                            <th>Player Id</th>
+                            <th>Player name</th>
+                            <th>Stat type</th>
+                            <th>Period</th>
+                            <th>Stat time</th>
+                        </tr>
+
+                        <tr ng-repeat="stat in stats">
+                            <td>{{ stat.Stat_Id }}</td>
+                            <td>{{ stat.Game_Id }}</td>
+                            <td>{{ stat.Opposing_Team }}</td>
+                            <td ng-if="stat.Player_Id == 0"><font color="red">ERROR</font></td>
+                            <td ng-if="stat.Player_Id > 0">{{ stat.Player_Id }}</td>
+                            <td ng-if="stat.Player_Name">{{ stat.Player_Name }}</td>
+                            <td ng-if="stat.Player_Name === null"><font color="red">ERROR</font></td>
+                            <td ng-if="stat.Stat_Type_Keyphrase">{{ stat.Stat_Type_Keyphrase }}</td>
+                            <td ng-if="stat.Stat_Type_Keyphrase === null"><font color="red">ERROR</font></td>
+                            <td>{{ stat.Period}}</td>
+                            <td>{{ stat.Stat_Time }}</td>
+                        </tr>
+                    </table>
+                </div>                    
+            </umb-tab>
+        </umb-tab-view>
+    </umb-panel>
+</form>

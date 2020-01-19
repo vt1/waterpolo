@@ -1,0 +1,13 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    Layout = "Master.cshtml";
+}
+
+@if (!Umbraco.MemberIsLoggedOn())
+{
+    Html.RenderAction("RenderLogin", "LoginMember");
+}
+else
+{    
+    Response.Redirect("/my-account/");
+}

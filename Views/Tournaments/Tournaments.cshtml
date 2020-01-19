@@ -1,0 +1,28 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ywp.Models.SiteViewModels.SeasonViewModel>
+@using ywp.CustomUtilities
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+
+<section class="wrapper style1">
+    <div class="row gtr-200">
+        <div class="container">
+            <h2>Tournaments:</h2>
+            @if (Model.Seasons != null && Model.Seasons.Any())
+            {
+                foreach (var season in Model.Seasons)
+                {
+                    <h3>@LinkHelper.Link("/games/" + season.Season_Id, season.Season_Title)</h3>
+                    <p><strong>Location: </strong>@season.Season_Location</p>
+                    <p><strong>Start date: </strong>@season.Season_Start_Date</p>
+                    <p><strong>End date: </strong>@season.Season_End_Date</p>
+                }
+
+            }
+            else
+            {
+                <h1>No seasons yet</h1>
+            }
+        </div>
+    </div>
+</section>

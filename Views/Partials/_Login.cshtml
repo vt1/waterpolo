@@ -1,0 +1,42 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ywp.Models.LoginModel>
+@using Umbraco.Web
+@using ywp.CustomUtilities
+
+@if (!Umbraco.MemberIsLoggedOn())
+{
+    using (Html.BeginUmbracoForm("SubmitLogin", "LoginMember", System.Web.Mvc.FormMethod.Post, new { id = "login" }))
+    {
+        <section class="wrapper style1">
+            <div class="row gtr-200">
+                <div class="container">
+                    <section class="col-6 col-12-narrower">
+                        <h2>Login</h2>
+                        @Html.AntiForgeryToken()
+
+                        <div class="row gtr-50">
+                            <div class="col-4 col-12-mobilep">
+                                @Html.LabelFor(m => m.Username)
+                                @Html.TextBoxFor(m => m.Username, new { placeholder = "Username" })
+
+                                @Html.LabelFor(m => m.Password)
+                                @Html.PasswordFor(m => m.Password, new { placeholder = "Password" })
+                                
+                                @LinkHelper.Link("/forgotpassword", "Forgot password?")
+                            </div>
+
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li>
+                                        @Html.ValidationSummary()
+                                        <input type="submit" class="button" value="Log in">
+                                        <input type="button" value="Sign Up" onclick="location.href='/signup/'" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    }
+}

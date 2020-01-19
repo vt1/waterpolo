@@ -1,0 +1,25 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ywp.Models.SiteViewModels.GameViewModel>
+@using ywp.CustomUtilities
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+
+<section class="wrapper style1">
+    <div class="row gtr-200">
+        <div class="container">
+            <h2>Games in @Model.Season.Season_Title:</h2>
+            @if (Model.Games != null && Model.Games.Any())
+            {
+                var controllerName = Model.Content.Name.ToFirstLower();
+                foreach (var game in Model.Games)
+                {                    
+                    <h1>@LinkHelper.Link("gameinfo/" + game.Game_Id, "Game vs..." + game.Opposing_Team)</h1>
+                }
+            }
+            else
+            {
+                <h1>No seasons yet</h1>
+            }
+        </div>
+    </div>
+</section>

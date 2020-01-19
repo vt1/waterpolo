@@ -1,0 +1,27 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ywp.Models.SiteViewModels.StatViewModel>
+@{
+	Layout = "~/Views/Master.cshtml";
+}
+
+<section class="wrapper style1">
+    <div class="row gtr-200">
+        <div class="container">
+            <h2>Game log ..vs @Model.Game.Opposing_Team</h2>
+            @if (Model.GameLogPeriod != null && Model.GameLogPeriod.Any())
+            {
+                foreach (var gameLogPeriod in Model.GameLogPeriod)
+                {
+                    <h2>Period @gameLogPeriod.Period</h2>
+                    foreach (var gameLog in gameLogPeriod.GameLog)
+                    {
+                        <p><strong>@gameLog.Player_Name</strong> from YPRO <strong>@gameLog.Stat_Type_Keyphrase</strong> @gameLog.Stat_Time.ToString("hh:mm:ss")</p>
+                    }
+                }
+            }
+            else
+            {
+                <h2>No game log</h2>
+            }
+        </div>
+    </div>
+</section>

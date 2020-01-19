@@ -1,0 +1,60 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ywp.Models.SiteViewModels.StatViewModel>
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+</style>
+
+<section class="wrapper style1">
+    <div class="row gtr-200">
+        <div class="container">
+            <h2>Total stats vs.. @Model.Game.Opposing_Team</h2>
+            @if (Model.StatTypes != null && Model.StatTypes.Any())
+            {
+                <table>
+                    <tr>
+                        <th>Player Name</th>
+                        @foreach (var statType in Model.StatTypes)
+                        {
+                            <th>@statType.Stat_Type_Webview</th>
+                        }
+                    </tr>
+
+                    @foreach (var rosterStat in Model.RosterStats)
+                    {
+                        <tr>
+                            <td>@rosterStat.Player_Name</td>
+                            @foreach (var rosterStatType in rosterStat.RosterStatType)
+                            {
+                                <td>@rosterStatType.Score</td>
+                            }
+                        </tr>
+                    }
+                    <tr>
+                        <td><strong>Game totals</strong></td>
+                        @foreach (var gameTotalScore in Model.GameTotalsScore)
+                        {
+                            <td><strong>@gameTotalScore.Total_Score</strong></td>
+                        }
+                    </tr>
+                </table>
+            }
+            else
+            {
+                <p>No stats yet</p>
+            }
+
+        </div>
+    </div>
+</section>
