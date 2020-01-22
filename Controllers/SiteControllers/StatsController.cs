@@ -14,6 +14,9 @@ namespace ywp.Controllers.SiteControllers
 {
     public class StatsController : RenderMvcController
     {
+ 	private DbFactory db = new DbFactory();
+	private StatsBLL statsBll = new StatsBll();
+
         public ActionResult Stats(RenderModel model)
         {
             StatViewModel statViewModel = new StatViewModel(model.Content);
@@ -22,8 +25,6 @@ namespace ywp.Controllers.SiteControllers
 
         public ActionResult GameLog(RenderModel model, int id)
         {
-            DbFactory db = new DbFactory();
-            StatsBLL statsBll = new StatsBLL();
             var GameLog = db.GetStatGameLogByGameId(id);            
 
             StatViewModel statViewModel = new StatViewModel(model.Content)
@@ -36,9 +37,6 @@ namespace ywp.Controllers.SiteControllers
 
         public ActionResult Totals(RenderModel model, int id)
         {
-            DbFactory db = new DbFactory();
-            StatsBLL statsBll = new StatsBLL();
-            
             StatViewModel statViewModel = new StatViewModel(model.Content)
             {
                 Game = db.GetGameById(id),

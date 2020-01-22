@@ -11,9 +11,10 @@ namespace ywp.Controllers.SiteControllers
 {
     public class GamesController : Umbraco.Web.Mvc.RenderMvcController
     {
+	private DbFactory db = new DbFactory();
+
         public ActionResult Games(RenderModel model, int id)
         {
-            DbFactory db = new DbFactory();
             GameViewModel gameViewModel = new GameViewModel(model.Content)
             {
                 Games = db.GetAllGamesBySeasonId(id),
@@ -24,7 +25,6 @@ namespace ywp.Controllers.SiteControllers
 
         public ActionResult GameInfo(RenderModel model, int id)
         {
-            DbFactory db = new DbFactory();
             GameViewModel gameViewModel = new GameViewModel(model.Content)
             {
                 GameInfo = db.GetGameById(id)

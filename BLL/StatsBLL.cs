@@ -11,6 +11,8 @@ namespace ywp.BLL
 {
     public class StatsBLL
     {
+	private DbFactory db = new DbFactory();
+
         /*
          * function expects that input parameter(list) is order by -_Period_- 
         */
@@ -54,8 +56,6 @@ namespace ywp.BLL
         */
         public List<RosterStats> ProcessTotalStats(int Game_Id)
         {
-            DbFactory db = new DbFactory();
-            
             // get all stat types (13)
             var statTypes = db.GetAllStatTypes();
 
@@ -151,7 +151,6 @@ namespace ywp.BLL
         
         public List<GameTotalsScore> ProcessGameTotalsScore(int Game_Id)
         {
-            DbFactory db = new DbFactory();
             Utils utils = new Utils();
             var statTypes = db.GetAllStatTypes();
             var gameTotalsScoreList = db.GetGameTotalsScoreByGameId(Game_Id);

@@ -11,7 +11,7 @@ namespace ywp.Controllers.SiteControllers
     {
         public ActionResult Tournaments(RenderModel model)
         {
-            DbFactory db = new DbFactory();
+ 	    private DbFactory db = new DbFactory();
             SeasonViewModel seasonViewModel = new SeasonViewModel(model.Content)
             {
                 Seasons = db.GetAllSeasons()
